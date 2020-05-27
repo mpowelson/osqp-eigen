@@ -94,8 +94,9 @@ set(${LIBRARY_TARGET_NAME}_HDR
 add_library(${LIBRARY_TARGET_NAME} ${${LIBRARY_TARGET_NAME}_SRC} ${${LIBRARY_TARGET_NAME}_HDR})
 target_include_directories(${LIBRARY_TARGET_NAME} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
+target_include_directories(${LIBRARY_TARGET_NAME} SYSTEM PUBLIC ${EIGEN3_INCLUDE_DIRS})
 
-target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC osqp::osqp Eigen3::Eigen)
+target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC osqp::osqp)
 
 add_library(OsqpEigen::OsqpEigen ALIAS OsqpEigen)
 
@@ -103,7 +104,7 @@ set_target_properties(${LIBRARY_TARGET_NAME} PROPERTIES
   VERSION ${PROJECT_VERSION}
   PUBLIC_HEADER "${${LIBRARY_TARGET_NAME}_HDR}")
 
-target_compile_features(${LIBRARY_TARGET_NAME} PUBLIC cxx_std_14)
+target_compile_options("${LIBRARY_TARGET_NAME}" PUBLIC -std=c++14)
 
 # List exported CMake package dependencies
 set(OSQP_EIGEN_EXPORTED_DEPENDENCIES "")
